@@ -1,0 +1,42 @@
+{
+  containerDefinitions: [
+	 {
+		name: "WORKER_SERVER_NAME",
+		memory: 40,
+		portMappings: [
+		  {
+			 containerPort: 80,
+			 protocol: "tcp"
+		  }
+		],
+		essential: true,
+		image: "WORKER_IMAGE_NAME",
+		cpu: 128
+	 },
+	 {
+		name: "sqsd",
+		memory: 40,
+		links: [
+		  "WORKER_SERVER_NAME"
+		],
+		environment: [
+		  {
+			 name: "SQS_URL",
+			 value: "https://sqs.us-east-1.amazonaws.com/account-id/WORKER_QUEUE_NAME"
+		  },
+		  {
+			 name: "POST_ENDPOINT",
+			 value: "/dowork"
+		  },
+		  {
+			 name: "POST_HOST",
+			 value: "http://WORKER_SERVER_NAME:80"
+		  }
+		],
+		essential: true,
+		image: "tskinn/sqs-daemon:latest",
+		cpu: 32
+	 }
+  ],
+  family: "ECS_SERVICE_NAME",
+}
