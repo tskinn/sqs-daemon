@@ -9,8 +9,8 @@ docker run --rm -i \
        -v ${PWD}:/go/src/github.com/tskinn/sqs-daemon \
        -w /go/src/github.com/tskinn/sqs-daemon \
        golang:1.7 \
-       sh -c "echo yes; cd src && go get -u -d -v && GOOS=${GOOS} go build -o ../bin/${GOOS}/sqsd ."
+       sh -c " go get -u -d -v && GOOS=${GOOS} go build -o bin/${GOOS}/sqs-deamon ."
 
 if [ $? -eq 0 ]; then
-    echo "${GOOS} binary successfully built at bin/${GOOS}/sqsd"
+    echo "${GOOS} binary successfully built at bin/${GOOS}/sqs-daemon"
 fi
